@@ -8,6 +8,7 @@ import (
 	"github.com/VMadhuranga/racing-car-game-backend/internal/database"
 	"github.com/go-playground/validator/v10"
 	"github.com/google/uuid"
+	"golang.org/x/crypto/bcrypt"
 )
 
 func (api apiConfig) handleCreateUser(w http.ResponseWriter, r *http.Request) {
@@ -55,10 +56,18 @@ func (api apiConfig) handleCreateUser(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	hashedPassword, err := bcrypt.GenerateFromPassword([]byte(payload.Password), 10)
+
+	if err != nil {
+		log.Printf("Could not hash password: %s", err)
+		respondWithError(w, 500, "Could not hash password")
+		return
+	}
+
 	err = api.queries.CreateUser(r.Context(), database.CreateUserParams{
 		ID:       uuid.New(),
 		Username: payload.Username,
-		Password: payload.Password,
+		Password: string(hashedPassword),
 	})
 
 	if err != nil {
