@@ -25,24 +25,13 @@ func (api apiConfig) handleCreateUser(w http.ResponseWriter, r *http.Request) {
 
 	if err != nil {
 		log.Printf("Could not validate payload: %s", err)
-		errors := userValidationErrors{}
 
-		for _, er := range err.(validator.ValidationErrors) {
-			switch er.StructField() {
-			case "Username":
-				errors.Username = append(
-					errors.Username,
-					validationErrorMessages[validationError{er.StructField(), er.ActualTag()}],
-				)
-			case "Password":
-				errors.Password = append(
-					errors.Password,
-					validationErrorMessages[validationError{er.StructField(), er.ActualTag()}],
-				)
-			}
-		}
+		respondWithValidationError(
+			w,
+			400,
+			generateUserValidationErrorMessages(err.(validator.ValidationErrors)),
+		)
 
-		respondWithValidationError(w, 400, errors)
 		return
 	}
 
@@ -50,9 +39,11 @@ func (api apiConfig) handleCreateUser(w http.ResponseWriter, r *http.Request) {
 
 	if err == nil {
 		log.Printf("Could not validate payload: %s", "user exist")
+
 		respondWithValidationError(w, 400, userValidationErrors{
 			Username: []string{"User with this user name already exist"},
 		})
+
 		return
 	}
 
