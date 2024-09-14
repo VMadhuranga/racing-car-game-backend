@@ -6,8 +6,10 @@ import (
 )
 
 type apiConfig struct {
-	queries  *database.Queries
-	validate *validator.Validate
+	queries            *database.Queries
+	validate           *validator.Validate
+	accessTokenSecret  string
+	refreshTokenSecret string
 }
 
 type userPayload struct {
