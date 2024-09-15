@@ -13,8 +13,9 @@ type apiConfig struct {
 }
 
 type userPayload struct {
-	Username string `validate:"required"`
-	Password string `validate:"required,alphanum"`
+	Username        string `validate:"required"`
+	Password        string `validate:"required,alphanum"`
+	ConfirmPassword string `json:",omitempty"`
 }
 
 type validationError struct {
@@ -22,6 +23,7 @@ type validationError struct {
 }
 
 type userValidationErrors struct {
-	Username []string `json:"username,omitempty"`
-	Password []string `json:"password,omitempty"`
+	Username        []string `json:"username,omitempty"`
+	Password        []string `json:"password,omitempty"`
+	ConfirmPassword []string `json:"confirm-password,omitempty"`
 }
