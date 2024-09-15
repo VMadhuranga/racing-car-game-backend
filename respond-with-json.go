@@ -10,7 +10,7 @@ func respondWithJson(w http.ResponseWriter, statusCode int, payload interface{})
 	response, err := json.Marshal(payload)
 
 	if err != nil {
-		log.Printf("Could not encode response: %s", err)
+		log.Printf("Error encoding payload: %s", err)
 		w.WriteHeader(500)
 		return
 	}

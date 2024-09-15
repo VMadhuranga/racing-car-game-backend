@@ -15,15 +15,15 @@ func (api apiConfig) handleUserSignIn(w http.ResponseWriter, r *http.Request) {
 	err := json.NewDecoder(r.Body).Decode(&payload)
 
 	if err != nil {
-		log.Printf("Could not decode payload: %s", err)
-		respondWithError(w, 400, "Could not decode payload")
+		log.Printf("Error decoding payload: %s", err)
+		respondWithError(w, 400, "Error decoding payload")
 		return
 	}
 
 	err = api.validate.Struct(payload)
 
 	if err != nil {
-		log.Printf("Could not validate payload: %s", err)
+		log.Printf("Error validating payload: %s", err)
 
 		respondWithValidationError(
 			w,
@@ -37,7 +37,7 @@ func (api apiConfig) handleUserSignIn(w http.ResponseWriter, r *http.Request) {
 	user, err := api.queries.GetUserByUsername(r.Context(), payload.Username)
 
 	if err != nil {
-		log.Printf("Could not validate payload: %s", err)
+		log.Printf("Error getting user: %s", err)
 
 		respondWithValidationError(w, 401, userValidationErrors{
 			Username: []string{"Incorrect username"},
@@ -49,7 +49,7 @@ func (api apiConfig) handleUserSignIn(w http.ResponseWriter, r *http.Request) {
 	err = bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(payload.Password))
 
 	if err != nil {
-		log.Printf("Could not validate payload: %s", err)
+		log.Printf("Error comparing passwords: %s", err)
 
 		respondWithValidationError(w, 401, userValidationErrors{
 			Password: []string{"Incorrect password"},
@@ -61,16 +61,16 @@ func (api apiConfig) handleUserSignIn(w http.ResponseWriter, r *http.Request) {
 	accessToken, err := createJwt(time.Minute, user.ID.String(), api.accessTokenSecret)
 
 	if err != nil {
-		log.Printf("Could not create access token: %s", err)
-		respondWithError(w, 500, "Could not create access token")
+		log.Printf("Error creating access token: %s", err)
+		respondWithError(w, 500, "Error creating access token")
 		return
 	}
 
 	refreshToken, err := createJwt(24*time.Hour, user.ID.String(), api.refreshTokenSecret)
 
 	if err != nil {
-		log.Printf("Could not create refresh token: %s", err)
-		respondWithError(w, 500, "Could not create refresh token")
+		log.Printf("Error creating refresh token: %s", err)
+		respondWithError(w, 500, "Error creating refresh token")
 		return
 	}
 

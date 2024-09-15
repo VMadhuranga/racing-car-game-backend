@@ -16,15 +16,15 @@ func (api apiConfig) handleCreateUser(w http.ResponseWriter, r *http.Request) {
 	err := json.NewDecoder(r.Body).Decode(&payload)
 
 	if err != nil {
-		log.Printf("Could not decode payload: %s", err)
-		respondWithError(w, 400, "Could not decode payload")
+		log.Printf("Error decoding payload: %s", err)
+		respondWithError(w, 400, "Error decoding payload")
 		return
 	}
 
 	err = api.validate.Struct(payload)
 
 	if err != nil {
-		log.Printf("Could not validate payload: %s", err)
+		log.Printf("Error validating payload: %s", err)
 
 		respondWithValidationError(
 			w,
@@ -38,8 +38,6 @@ func (api apiConfig) handleCreateUser(w http.ResponseWriter, r *http.Request) {
 	_, err = api.queries.GetUserByUsername(r.Context(), payload.Username)
 
 	if err == nil {
-		log.Printf("Could not validate payload: %s", "user exist")
-
 		respondWithValidationError(w, 400, userValidationErrors{
 			Username: []string{"User with this user name already exist"},
 		})
@@ -50,8 +48,8 @@ func (api apiConfig) handleCreateUser(w http.ResponseWriter, r *http.Request) {
 	hashedPassword, err := bcrypt.GenerateFromPassword([]byte(payload.Password), 10)
 
 	if err != nil {
-		log.Printf("Could not hash password: %s", err)
-		respondWithError(w, 500, "Could not hash password")
+		log.Printf("Error hashing password: %s", err)
+		respondWithError(w, 500, "Error hashing password")
 		return
 	}
 
@@ -62,8 +60,8 @@ func (api apiConfig) handleCreateUser(w http.ResponseWriter, r *http.Request) {
 	})
 
 	if err != nil {
-		log.Printf("Could not create user: %s", err)
-		respondWithError(w, 500, "Could not create user")
+		log.Printf("Error creating user: %s", err)
+		respondWithError(w, 500, "Error creating user")
 		return
 	}
 
