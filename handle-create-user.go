@@ -45,6 +45,13 @@ func (api apiConfig) handleCreateUser(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	if payload.Password != payload.ConfirmPassword {
+		respondWithValidationError(w, 400, userValidationErrors{
+			ConfirmPassword: []string{"Passwords do not match"},
+		})
+		return
+	}
+
 	hashedPassword, err := bcrypt.GenerateFromPassword([]byte(payload.Password), 10)
 
 	if err != nil {
