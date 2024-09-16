@@ -12,7 +12,7 @@ import (
 )
 
 func (api apiConfig) handleCreateUser(w http.ResponseWriter, r *http.Request) {
-	var payload userPayload
+	var payload createUserPayload
 	err := json.NewDecoder(r.Body).Decode(&payload)
 
 	if err != nil {

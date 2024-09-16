@@ -13,10 +13,10 @@ type apiConfig struct {
 	refreshTokenSecret string
 }
 
-type userPayload struct {
-	Username        string `validate:"required"`
-	Password        string `validate:"required,alphanum"`
-	ConfirmPassword string `json:",omitempty"`
+type createUserPayload struct {
+	Username        string `json:"username,omitempty" validate:"required,omitempty"`
+	Password        string `json:"password,omitempty" validate:"required,alphanum,omitempty"`
+	ConfirmPassword string `json:"confirm-password,omitempty"`
 }
 
 type validationError struct {
