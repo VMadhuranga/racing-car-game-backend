@@ -22,7 +22,7 @@ type validationError struct {
 	field, tag string
 }
 
-type userValidationErrors struct {
+type userValidationErrorResponse struct {
 	Username        []string `json:"username,omitempty"`
 	Password        []string `json:"password,omitempty"`
 	ConfirmPassword []string `json:"confirm-password,omitempty"`

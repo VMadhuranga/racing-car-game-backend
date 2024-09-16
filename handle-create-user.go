@@ -38,7 +38,7 @@ func (api apiConfig) handleCreateUser(w http.ResponseWriter, r *http.Request) {
 	_, err = api.queries.GetUserByUsername(r.Context(), payload.Username)
 
 	if err == nil {
-		respondWithValidationError(w, 400, userValidationErrors{
+		respondWithValidationError(w, 400, userValidationErrorResponse{
 			Username: []string{"User with this user name already exist"},
 		})
 
@@ -46,7 +46,7 @@ func (api apiConfig) handleCreateUser(w http.ResponseWriter, r *http.Request) {
 	}
 
 	if payload.Password != payload.ConfirmPassword {
-		respondWithValidationError(w, 400, userValidationErrors{
+		respondWithValidationError(w, 400, userValidationErrorResponse{
 			ConfirmPassword: []string{"Passwords do not match"},
 		})
 		return

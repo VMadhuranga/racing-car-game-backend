@@ -39,7 +39,7 @@ func (api apiConfig) handleUserSignIn(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		log.Printf("Error getting user: %s", err)
 
-		respondWithValidationError(w, 401, userValidationErrors{
+		respondWithValidationError(w, 401, userValidationErrorResponse{
 			Username: []string{"Incorrect username"},
 		})
 
@@ -51,7 +51,7 @@ func (api apiConfig) handleUserSignIn(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		log.Printf("Error comparing passwords: %s", err)
 
-		respondWithValidationError(w, 401, userValidationErrors{
+		respondWithValidationError(w, 401, userValidationErrorResponse{
 			Password: []string{"Incorrect password"},
 		})
 

@@ -2,8 +2,8 @@ package main
 
 import "github.com/go-playground/validator/v10"
 
-func generateUserValidationErrorMessages(errors validator.ValidationErrors) userValidationErrors {
-	messages := userValidationErrors{}
+func generateUserValidationErrorMessages(errors validator.ValidationErrors) userValidationErrorResponse {
+	messages := userValidationErrorResponse{}
 
 	for _, err := range errors {
 		switch err.StructField() {
