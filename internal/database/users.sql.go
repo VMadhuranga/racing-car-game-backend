@@ -51,6 +51,20 @@ func (q *Queries) GetUserByUsername(ctx context.Context, username string) (User,
 	return i, err
 }
 
+const updatePasswordById = `-- name: UpdatePasswordById :exec
+UPDATE users SET password = $1 WHERE id = $2
+`
+
+type UpdatePasswordByIdParams struct {
+	Password string
+	ID       uuid.UUID
+}
+
+func (q *Queries) UpdatePasswordById(ctx context.Context, arg UpdatePasswordByIdParams) error {
+	_, err := q.db.ExecContext(ctx, updatePasswordById, arg.Password, arg.ID)
+	return err
+}
+
 const updateUsernameById = `-- name: UpdateUsernameById :exec
 UPDATE users SET username = $1 WHERE id = $2
 `
