@@ -19,19 +19,21 @@ func main() {
 	err := godotenv.Load()
 
 	if err != nil {
-		log.Fatalf("Could not load .env file: %s", err)
+		log.Fatalf("Error loading .env file: %s", err)
 	}
 
 	dbUri := os.Getenv("POSTGRES_URI")
 	db, err := sql.Open("postgres", dbUri)
 
 	if err != nil {
-		log.Fatalf("Could not open database: %s", err)
+		log.Fatalf("Error opening database: %s", err)
 	}
 
 	api := apiConfig{
-		queries:  database.New(db),
-		validate: validator.New(validator.WithRequiredStructEnabled()),
+		queries:            database.New(db),
+		validate:           validator.New(validator.WithRequiredStructEnabled()),
+		accessTokenSecret:  os.Getenv("ACCESS_TOKEN_SECRET"),
+		refreshTokenSecret: os.Getenv("REFRESH_TOKEN_SECRET"),
 	}
 
 	router := chi.NewRouter()
@@ -39,7 +41,7 @@ func main() {
 
 	router.Use(cors.Handler(cors.Options{
 		AllowedOrigins:   []string{os.Getenv("FRONTEND_BASE_URL")},
-		AllowedMethods:   []string{"GET", "POST", "PUT", "DELETE", "OPTIONS"},
+		AllowedMethods:   []string{"GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"},
 		AllowedHeaders:   []string{"Accept", "Authorization", "Content-Type", "X-CSRF-Token"},
 		ExposedHeaders:   []string{"Link"},
 		AllowCredentials: true,
@@ -48,7 +50,11 @@ func main() {
 
 	v1router := chi.NewRouter()
 
+	v1router.Post("/sign-in", api.handleUserSignIn)
 	v1router.Post("/users", api.handleCreateUser)
+
+	v1router.Get("/users/{userId}", api.handleGetUserById)
+	v1router.Patch("/users/{userId}/username", api.handleUpdateUsernameById)
 
 	router.Mount("/v1", v1router)
 	port := os.Getenv("PORT")
@@ -62,6 +68,6 @@ func main() {
 	err = server.ListenAndServe()
 
 	if err != nil {
-		log.Fatalf("Could not listen on server: %s", err)
+		log.Fatalf("Error listening on server: %s", err)
 	}
 }
