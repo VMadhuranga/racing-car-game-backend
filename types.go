@@ -14,9 +14,13 @@ type apiConfig struct {
 }
 
 type createUserPayload struct {
-	Username        string `json:"username,omitempty" validate:"required,omitempty"`
-	Password        string `json:"password,omitempty" validate:"required,alphanum,omitempty"`
+	Username        string `json:"username,omitempty" validate:"required"`
+	Password        string `json:"password,omitempty" validate:"required,alphanum"`
 	ConfirmPassword string `json:"confirm-password,omitempty"`
+}
+
+type updateUsernamePayload struct {
+	NewUsername string `json:"new-username,omitempty" validate:"required,omitempty"`
 }
 
 type validationError struct {
@@ -24,9 +28,13 @@ type validationError struct {
 }
 
 type userValidationErrorResponse struct {
-	Username        []string `json:"username,omitempty"`
-	Password        []string `json:"password,omitempty"`
-	ConfirmPassword []string `json:"confirm-password,omitempty"`
+	Username           []string `json:"username,omitempty"`
+	Password           []string `json:"password,omitempty"`
+	ConfirmPassword    []string `json:"confirm-password,omitempty"`
+	NewUsername        []string `json:"new-username,omitempty"`
+	OldPassword        []string `json:"old-password,omitempty"`
+	NewPassword        []string `json:"new-password,omitempty"`
+	ConfirmNewPassword []string `json:"confirm-new-password,omitempty"`
 }
 
 type userResponse struct {
