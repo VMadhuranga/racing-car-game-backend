@@ -55,6 +55,7 @@ func main() {
 
 	v1router.Get("/users/{userId}", api.handleGetUserById)
 	v1router.Patch("/users/{userId}/username", api.handleUpdateUsernameById)
+	v1router.Patch("/users/{userId}/password", api.handleUpdatePasswordById)
 
 	router.Mount("/v1", v1router)
 	port := os.Getenv("PORT")
