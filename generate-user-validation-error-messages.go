@@ -22,6 +22,21 @@ func generateUserValidationErrorMessages(errors validator.ValidationErrors) user
 				messages.NewUsername,
 				validationErrorMessages[validationError{err.StructField(), err.ActualTag()}],
 			)
+		case "OldPassword":
+			messages.OldPassword = append(
+				messages.OldPassword,
+				validationErrorMessages[validationError{err.StructField(), err.ActualTag()}],
+			)
+		case "NewPassword":
+			messages.NewPassword = append(
+				messages.NewPassword,
+				validationErrorMessages[validationError{err.StructField(), err.ActualTag()}],
+			)
+		case "ConfirmNewPassword":
+			messages.ConfirmNewPassword = append(
+				messages.ConfirmNewPassword,
+				validationErrorMessages[validationError{err.StructField(), err.ActualTag()}],
+			)
 		}
 	}
 
