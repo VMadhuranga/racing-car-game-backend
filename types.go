@@ -23,6 +23,12 @@ type updateUsernamePayload struct {
 	NewUsername string `json:"new-username,omitempty" validate:"required,omitempty"`
 }
 
+type updatePasswordPayload struct {
+	OldPassword        string `json:"old-password,omitempty" validate:"required,alphanum"`
+	NewPassword        string `json:"new-password,omitempty" validate:"required,alphanum"`
+	ConfirmNewPassword string `json:"confirm-new-password,omitempty"`
+}
+
 type validationError struct {
 	field, tag string
 }
