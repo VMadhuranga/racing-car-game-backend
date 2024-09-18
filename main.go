@@ -50,12 +50,19 @@ func main() {
 
 	v1router := chi.NewRouter()
 
-	v1router.Post("/sign-in", api.handleUserSignIn)
-	v1router.Post("/users", api.handleCreateUser)
+	// public routes
+	v1router.Group(func(r chi.Router) {
+		r.Post("/sign-in", api.handleUserSignIn)
+		r.Post("/users", api.handleCreateUser)
+	})
 
-	v1router.Get("/users/{userId}", api.handleGetUserById)
-	v1router.Patch("/users/{userId}/username", api.handleUpdateUsernameById)
-	v1router.Patch("/users/{userId}/password", api.handleUpdatePasswordById)
+	// private routes
+	v1router.Group(func(r chi.Router) {
+		r.Use(api.authenticate)
+		r.Get("/users/{userId}", api.handleGetUserById)
+		r.Patch("/users/{userId}/username", api.handleUpdateUsernameById)
+		r.Patch("/users/{userId}/password", api.handleUpdatePasswordById)
+	})
 
 	router.Mount("/v1", v1router)
 	port := os.Getenv("PORT")
