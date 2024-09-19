@@ -53,6 +53,7 @@ func main() {
 	// public routes
 	v1router.Group(func(r chi.Router) {
 		r.Post("/sign-in", api.handleUserSignIn)
+		r.Get("/refresh", api.handleRefresh)
 		r.Post("/users", api.handleCreateUser)
 	})
 
