@@ -61,6 +61,7 @@ func main() {
 	v1router.Group(func(r chi.Router) {
 		r.Use(api.authenticate)
 		r.Get("/users/{userId}", api.handleGetUserById)
+		r.Delete("/users/{userId}", api.handleDeleteUserById)
 		r.Patch("/users/{userId}/username", api.handleUpdateUsernameById)
 		r.Patch("/users/{userId}/password", api.handleUpdatePasswordById)
 	})
