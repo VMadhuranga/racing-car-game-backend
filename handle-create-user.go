@@ -60,8 +60,10 @@ func (api apiConfig) handleCreateUser(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	userId := uuid.New()
+
 	err = api.queries.CreateUser(r.Context(), database.CreateUserParams{
-		ID:       uuid.New(),
+		ID:       userId,
 		Username: payload.Username,
 		Password: string(hashedPassword),
 	})
@@ -69,6 +71,18 @@ func (api apiConfig) handleCreateUser(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		log.Printf("Error creating user: %s", err)
 		respondWithError(w, 500, "Error creating user")
+		return
+	}
+
+	err = api.queries.AddUserToLeaderBoard(r.Context(), database.AddUserToLeaderBoardParams{
+		ID:       uuid.New(),
+		BestTime: "",
+		UserID:   userId,
+	})
+
+	if err != nil {
+		log.Printf("Error adding user to leader board: %s", err)
+		respondWithError(w, 500, "Error adding user to leader board")
 		return
 	}
 
