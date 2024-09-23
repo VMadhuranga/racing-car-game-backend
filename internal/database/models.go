@@ -8,6 +8,12 @@ import (
 	"github.com/google/uuid"
 )
 
+type LeaderBoard struct {
+	ID       uuid.UUID
+	BestTime string
+	UserID   uuid.UUID
+}
+
 type User struct {
 	ID       uuid.UUID
 	Username string
