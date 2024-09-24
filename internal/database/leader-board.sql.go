@@ -26,3 +26,17 @@ func (q *Queries) AddUserToLeaderBoard(ctx context.Context, arg AddUserToLeaderB
 	_, err := q.db.ExecContext(ctx, addUserToLeaderBoard, arg.ID, arg.BestTime, arg.UserID)
 	return err
 }
+
+const updateUserBestTimeByUserId = `-- name: UpdateUserBestTimeByUserId :exec
+UPDATE leader_board SET best_time = $1 WHERE user_id = $2
+`
+
+type UpdateUserBestTimeByUserIdParams struct {
+	BestTime string
+	UserID   uuid.UUID
+}
+
+func (q *Queries) UpdateUserBestTimeByUserId(ctx context.Context, arg UpdateUserBestTimeByUserIdParams) error {
+	_, err := q.db.ExecContext(ctx, updateUserBestTimeByUserId, arg.BestTime, arg.UserID)
+	return err
+}
