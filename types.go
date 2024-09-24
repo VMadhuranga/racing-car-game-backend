@@ -29,6 +29,10 @@ type updatePasswordPayload struct {
 	ConfirmNewPassword string `json:"confirm-new-password,omitempty"`
 }
 
+type updateBestTimePayLoad struct {
+	BestTime string `json:"best-time,omitempty" validate:"required,numeric"`
+}
+
 type validationError struct {
 	field, tag string
 }
