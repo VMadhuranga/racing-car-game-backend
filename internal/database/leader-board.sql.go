@@ -27,6 +27,42 @@ func (q *Queries) AddUserToLeaderBoard(ctx context.Context, arg AddUserToLeaderB
 	return err
 }
 
+const getLeaderBoard = `-- name: GetLeaderBoard :many
+SELECT l.id, l.best_time, u.username
+FROM leader_board l
+JOIN users u ON l.user_id = u.id
+ORDER BY l.best_time
+`
+
+type GetLeaderBoardRow struct {
+	ID       uuid.UUID
+	BestTime string
+	Username string
+}
+
+func (q *Queries) GetLeaderBoard(ctx context.Context) ([]GetLeaderBoardRow, error) {
+	rows, err := q.db.QueryContext(ctx, getLeaderBoard)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+	var items []GetLeaderBoardRow
+	for rows.Next() {
+		var i GetLeaderBoardRow
+		if err := rows.Scan(&i.ID, &i.BestTime, &i.Username); err != nil {
+			return nil, err
+		}
+		items = append(items, i)
+	}
+	if err := rows.Close(); err != nil {
+		return nil, err
+	}
+	if err := rows.Err(); err != nil {
+		return nil, err
+	}
+	return items, nil
+}
+
 const updateUserBestTimeByUserId = `-- name: UpdateUserBestTimeByUserId :exec
 UPDATE leader_board SET best_time = $1 WHERE user_id = $2
 `
