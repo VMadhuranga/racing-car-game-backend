@@ -51,3 +51,9 @@ type userResponse struct {
 	Id       uuid.UUID `json:"id,omitempty"`
 	Username string    `json:"username,omitempty"`
 }
+
+type leaderBoardResponse struct {
+	Id       uuid.UUID `json:"id,omitempty"`
+	BestTime string    `json:"best-time,omitempty"`
+	Username string    `json:"username,omitempty"`
+}
