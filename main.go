@@ -5,11 +5,13 @@ import (
 	"log"
 	"net/http"
 	"os"
+	"time"
 
 	"github.com/VMadhuranga/racing-car-game-backend/internal/database"
 	"github.com/go-chi/chi/v5"
 	"github.com/go-chi/chi/v5/middleware"
 	"github.com/go-chi/cors"
+	"github.com/go-chi/httprate"
 	"github.com/go-playground/validator/v10"
 	"github.com/joho/godotenv"
 	_ "github.com/lib/pq"
@@ -37,7 +39,17 @@ func main() {
 	}
 
 	router := chi.NewRouter()
+
 	router.Use(middleware.Logger)
+	router.Use(httprate.Limit(
+		100,
+		time.Minute,
+		httprate.WithLimitHandler(func(w http.ResponseWriter, r *http.Request) {
+			log.Println("Error handling request: rate limit exceeded")
+			http.Error(w, `{"error": "Too many requests, try again after on minute"}`, http.StatusTooManyRequests)
+		}),
+	))
+	router.Use(middleware.Compress(5, "application/json"))
 
 	router.Use(cors.Handler(cors.Options{
 		AllowedOrigins:   []string{os.Getenv("FRONTEND_BASE_URL")},
