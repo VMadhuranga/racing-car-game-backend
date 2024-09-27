@@ -76,7 +76,7 @@ func (api apiConfig) handleCreateUser(w http.ResponseWriter, r *http.Request) {
 
 	err = api.queries.AddUserToLeaderBoard(r.Context(), database.AddUserToLeaderBoardParams{
 		ID:       uuid.New(),
-		BestTime: "",
+		BestTime: "0.0",
 		UserID:   userId,
 	})
 
