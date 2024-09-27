@@ -29,7 +29,7 @@ func (api apiConfig) handleRefresh(w http.ResponseWriter, r *http.Request) {
 
 	if err != nil {
 		log.Printf("Error parsing token subject: %s", err)
-		respondWithError(w, 400, "Error parsing token subject")
+		respondWithError(w, 403, "Error parsing token subject")
 		return
 	}
 

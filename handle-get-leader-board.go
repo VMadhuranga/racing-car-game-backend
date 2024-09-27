@@ -13,7 +13,7 @@ func (api apiConfig) handleGetLeaderBoard(w http.ResponseWriter, r *http.Request
 
 	if err != nil {
 		log.Printf("Error parsing userId: %s", err)
-		respondWithError(w, 400, "Error parsing userId")
+		respondWithError(w, 404, "Error parsing userId")
 		return
 	}
 

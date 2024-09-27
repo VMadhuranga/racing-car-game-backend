@@ -17,7 +17,7 @@ func (api apiConfig) handleUpdatePasswordById(w http.ResponseWriter, r *http.Req
 
 	if err != nil {
 		log.Printf("Error parsing userId: %s", err)
-		respondWithError(w, 400, "Error parsing userId")
+		respondWithError(w, 404, "Error parsing userId")
 		return
 	}
 

@@ -11,6 +11,7 @@ func (api apiConfig) authenticate(next http.Handler) http.Handler {
 		authHeader := r.Header.Get("Authorization")
 
 		if !strings.HasPrefix(authHeader, "Bearer ") {
+			log.Println("Error Error getting bearer token: missing 'Bearer' prefix")
 			respondWithError(w, 401, "Error getting bearer token")
 			return
 		}
@@ -18,6 +19,7 @@ func (api apiConfig) authenticate(next http.Handler) http.Handler {
 		token := strings.TrimPrefix(authHeader, "Bearer ")
 
 		if len(token) == 0 {
+			log.Println("Error Error getting bearer token: missing token value")
 			respondWithError(w, 401, "Error getting bearer token")
 			return
 		}

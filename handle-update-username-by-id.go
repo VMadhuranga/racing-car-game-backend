@@ -16,7 +16,7 @@ func (api apiConfig) handleUpdateUsernameById(w http.ResponseWriter, r *http.Req
 
 	if err != nil {
 		log.Printf("Error parsing userId: %s", err)
-		respondWithError(w, 400, "Error parsing userId")
+		respondWithError(w, 404, "Error parsing userId")
 		return
 	}
 
@@ -54,6 +54,7 @@ func (api apiConfig) handleUpdateUsernameById(w http.ResponseWriter, r *http.Req
 	user, err := api.queries.GetUserByUsername(r.Context(), payload.NewUsername)
 
 	if err == nil && user.ID != userId {
+		log.Println("Error validating user: username already exist")
 		respondWithValidationError(w, 400, userValidationErrorResponse{
 			NewUsername: []string{"User with this user name already exist"},
 		})

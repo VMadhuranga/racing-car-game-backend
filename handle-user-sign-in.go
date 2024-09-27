@@ -16,7 +16,7 @@ func (api apiConfig) handleUserSignIn(w http.ResponseWriter, r *http.Request) {
 
 	if err != nil {
 		log.Printf("Error decoding payload: %s", err)
-		respondWithError(w, 400, "Error decoding payload")
+		respondWithError(w, 404, "Error decoding payload")
 		return
 	}
 
