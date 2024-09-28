@@ -11,7 +11,7 @@ import (
 )
 
 func (api apiConfig) handleUserSignIn(w http.ResponseWriter, r *http.Request) {
-	var payload createUserPayload
+	var payload userSignInPayload
 	err := json.NewDecoder(r.Body).Decode(&payload)
 
 	if err != nil {
