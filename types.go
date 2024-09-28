@@ -19,6 +19,11 @@ type createUserPayload struct {
 	ConfirmPassword string `json:"confirm-password,omitempty"`
 }
 
+type userSignInPayload struct {
+	Username string `json:"username,omitempty" validate:"required,alpha"`
+	Password string `json:"password,omitempty" validate:"required,alphanum"`
+}
+
 type updateUsernamePayload struct {
 	NewUsername string `json:"new-username,omitempty" validate:"required,alpha"`
 }
