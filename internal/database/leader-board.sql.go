@@ -31,7 +31,7 @@ const getLeaderBoard = `-- name: GetLeaderBoard :many
 SELECT l.id, l.best_time, u.username
 FROM leader_board l
 JOIN users u ON l.user_id = u.id
-ORDER BY l.best_time
+ORDER BY l.best_time DESC
 `
 
 type GetLeaderBoardRow struct {
