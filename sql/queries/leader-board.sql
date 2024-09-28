@@ -9,4 +9,4 @@ UPDATE leader_board SET best_time = $1 WHERE user_id = $2;
 SELECT l.id, l.best_time, u.username
 FROM leader_board l
 JOIN users u ON l.user_id = u.id
-ORDER BY l.best_time;
+ORDER BY l.best_time DESC;
