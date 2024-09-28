@@ -6,6 +6,10 @@ var validationErrorMessages = map[validationError]string{
 		"required",
 	}: "User name is required",
 	{
+		"Username",
+		"alpha",
+	}: "Username must contain letters only",
+	{
 		"Password",
 		"required",
 	}: "Password is required",
@@ -14,9 +18,17 @@ var validationErrorMessages = map[validationError]string{
 		"alphanum",
 	}: "Password must contain letters and numbers only",
 	{
+		"Password",
+		"min",
+	}: "Password must contain at least 5 characters",
+	{
 		"NewUsername",
 		"required",
 	}: "New user name is required",
+	{
+		"NewUsername",
+		"alpha",
+	}: "New user name must contain letters only",
 	{
 		"OldPassword",
 		"required",
@@ -33,6 +45,10 @@ var validationErrorMessages = map[validationError]string{
 		"NewPassword",
 		"alphanum",
 	}: "New password must contain letters and numbers only",
+	{
+		"NewPassword",
+		"min",
+	}: "NewPassword must contain at least 5 characters",
 	{
 		"ConfirmNewPassword",
 		"required",
