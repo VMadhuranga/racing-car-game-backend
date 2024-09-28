@@ -14,18 +14,18 @@ type apiConfig struct {
 }
 
 type createUserPayload struct {
-	Username        string `json:"username,omitempty" validate:"required"`
-	Password        string `json:"password,omitempty" validate:"required,alphanum"`
+	Username        string `json:"username,omitempty" validate:"required,alpha"`
+	Password        string `json:"password,omitempty" validate:"required,alphanum,min=5"`
 	ConfirmPassword string `json:"confirm-password,omitempty"`
 }
 
 type updateUsernamePayload struct {
-	NewUsername string `json:"new-username,omitempty" validate:"required,omitempty"`
+	NewUsername string `json:"new-username,omitempty" validate:"required,alpha"`
 }
 
 type updatePasswordPayload struct {
 	OldPassword        string `json:"old-password,omitempty" validate:"required,alphanum"`
-	NewPassword        string `json:"new-password,omitempty" validate:"required,alphanum"`
+	NewPassword        string `json:"new-password,omitempty" validate:"required,alphanum,min=5"`
 	ConfirmNewPassword string `json:"confirm-new-password,omitempty"`
 }
 
