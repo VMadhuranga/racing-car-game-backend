@@ -1,7 +1,7 @@
 -- +goose Up
 CREATE TABLE leader_board (
     id UUID PRIMARY KEY,
-    best_time TEXT NOT NULL,
+    best_time DECIMAL NOT NULL,
     user_id UUID NOT NULL REFERENCES users (id) ON DELETE CASCADE
 );
 
