@@ -10,7 +10,7 @@ import (
 	"github.com/google/uuid"
 )
 
-func (api apiConfig) updateUserBestTimeByUserId(w http.ResponseWriter, r *http.Request) {
+func (api apiConfig) handleUpdateUserBestTimeByUserId(w http.ResponseWriter, r *http.Request) {
 	userId, err := uuid.Parse(chi.URLParam(r, "userId"))
 
 	if err != nil {

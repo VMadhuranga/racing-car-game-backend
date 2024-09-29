@@ -78,7 +78,7 @@ func main() {
 		r.Patch("/users/{userId}/username", api.handleUpdateUsernameById)
 		r.Patch("/users/{userId}/password", api.handleUpdatePasswordById)
 		r.Get("/users/{userId}/leader-board", api.handleGetLeaderBoard)
-		r.Patch("/users/{userId}/leader-board/best-time", api.updateUserBestTimeByUserId)
+		r.Patch("/users/{userId}/leader-board/best-time", api.handleUpdateUserBestTimeByUserId)
 	})
 
 	router.Mount("/v1", v1router)
