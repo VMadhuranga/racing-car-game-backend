@@ -26,6 +26,7 @@ func main() {
 
 	dbUri := os.Getenv("POSTGRES_URI")
 	db, err := sql.Open("postgres", dbUri)
+	log.Printf("Opening database")
 
 	if err != nil {
 		log.Fatalf("Error opening database: %s", err)
