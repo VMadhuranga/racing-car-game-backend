@@ -63,6 +63,18 @@ func (q *Queries) GetLeaderBoard(ctx context.Context) ([]GetLeaderBoardRow, erro
 	return items, nil
 }
 
+const getUserBestTime = `-- name: GetUserBestTime :one
+SELECT best_time FROM leader_board
+WHERE user_id = $1
+`
+
+func (q *Queries) GetUserBestTime(ctx context.Context, userID uuid.UUID) (string, error) {
+	row := q.db.QueryRowContext(ctx, getUserBestTime, userID)
+	var best_time string
+	err := row.Scan(&best_time)
+	return best_time, err
+}
+
 const updateUserBestTimeByUserId = `-- name: UpdateUserBestTimeByUserId :exec
 UPDATE leader_board SET best_time = $1 WHERE user_id = $2
 `
