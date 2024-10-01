@@ -25,8 +25,17 @@ func (api apiConfig) handleGetUserById(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	userBestTime, err := api.queries.GetUserBestTime(r.Context(), userId)
+
+	if err != nil {
+		log.Printf("Error getting user best time: %s", err)
+		respondWithError(w, 404, "Error getting user best time")
+		return
+	}
+
 	respondWithJson(w, 200, userResponse{
 		Id:       user.ID,
 		Username: user.Username,
+		BestTime: userBestTime,
 	})
 }
