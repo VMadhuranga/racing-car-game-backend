@@ -55,6 +55,7 @@ type userValidationErrorResponse struct {
 type userResponse struct {
 	Id       uuid.UUID `json:"id,omitempty"`
 	Username string    `json:"username,omitempty"`
+	BestTime string    `json:"best-time,omitempty"`
 }
 
 type leaderBoardResponse struct {
